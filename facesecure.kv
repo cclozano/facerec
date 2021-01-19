@@ -1,0 +1,66 @@
+# <KivyCamera>:
+#   id: camera
+
+<MainScreen>:
+    camera: camera
+
+    BoxLayout:
+        orientation: 'vertical'
+
+        RecognitionCamera:
+            id: camera
+
+        BoxLayout
+            orientation: 'horizontal'
+            Button:
+                text: 'Settings'
+                on_press: root.manager.current = 'login'
+            Button:
+                text: 'Quit'
+
+<AccessGrantedScreen>
+    BoxLayout:
+        orientation: 'vertical'
+	Label:
+	    text: 'Access Granted'
+
+<LoginScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        BoxLayout:
+            Label:
+                text: 'PIN'
+            TextInput:
+                id: user_pin
+                multiline: False
+        BoxLayout:
+            Button:
+                text: 'Login'
+                on_press: root.do_login(user_pin.text)
+            Button:
+                text: 'Cancel'
+                on_press: root.manager.current = 'main'
+
+<SettingsScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        Label:
+            text: 'Settings'
+        Button:
+            text: 'Enroll'
+            on_press: root.manager.current = 'enroll'
+        Button:
+            text: 'Cancel'
+            on_press: root.manager.current = 'main'
+
+<EnrollScreen>
+    camera: camera
+
+    BoxLayout:
+        orientation: 'vertical'
+        EnrollmentCamera:
+            id: camera
+        Button:
+            text: 'Cancel'
+            on_press: root.manager.current = 'main'
+
