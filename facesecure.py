@@ -45,6 +45,9 @@ class EnrollScreen(Screen):
     def on_leave(self):
         self.camera.stop()
 
+    def do_enroll(self, user_name):
+        self.camera.enroll(user_name)
+
 
 class EnrollmentCamera(Image):
 
@@ -54,13 +57,13 @@ class EnrollmentCamera(Image):
         self.capture = None
 
     def start(self):
-        fps = 30
         if not self.capture:
             self.capture = cv2.VideoCapture(0)
-            print(self.capture)
+
+        fps = 30
         self.update_event = Clock.schedule_interval(self.update, 1.0 / fps)
-        self.recognized_person = None
-        self.c = 0
+        # self.recognized_person = None
+        # self.c = 0
 
     def stop(self):
         if self.capture:
@@ -68,10 +71,20 @@ class EnrollmentCamera(Image):
             self.capture = None
             Clock.unschedule(self.update_event)
 
+    def enroll(self, user_name):
+        self.enrollment.do(user_name)
+
     def update(self, dt):
         ret, frame = self.capture.read()
 
         if ret:
+
+            self.enrollment.rval = ret
+            self.enrollment.img = frame
+
+            if self.enrollment.is_working():
+                buf1 = self.enrollment.frame
+
             # convert it to texture
             buf1 = cv2.flip(frame, 0)
             # buf1, person = self.recognition.do(ret, frame)
@@ -83,29 +96,20 @@ class EnrollmentCamera(Image):
             # display image from the texture
             self.texture = image_texture
 
-            # Grant access afer 30 retries
-            # if person and person == self.recognized_person:
-            #     self.c += 1
-            #     if self.c == 30:
-            #         self.parent.parent.manager.current = 'access_granted'
-            # else:
-            #     self.c = 0
-            # print(self.c)
-            # self.recognized_person = person
-
 
 class RecognitionCamera(Image):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.recognition = Recognition()
+        self.recognition = None
         self.capture = None
 
     def start(self):
+        self.recognition = Recognition()
         fps = 30
         if not self.capture:
             self.capture = cv2.VideoCapture(0)
-            print(self.capture)
+
         self.update_event = Clock.schedule_interval(self.update, 1.0 / fps)
         self.recognized_person = None
         self.c = 0
@@ -117,6 +121,9 @@ class RecognitionCamera(Image):
             Clock.unschedule(self.update_event)
 
     def update(self, dt):
+        if not self.capture:
+            return
+
         ret, frame = self.capture.read()
 
         if ret:

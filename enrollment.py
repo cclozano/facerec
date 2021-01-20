@@ -1,8 +1,15 @@
 import cv2
 import os
+import glob
 
 
 class Enrollment:
+
+    def __init__(self):
+        self.working = False
+
+    def is_working(self):
+        return self.working
 
     def do(self, name):
         nombre = name
@@ -16,17 +23,30 @@ class Enrollment:
         # Si no hay una carpeta con el nombre ingresado entonces se crea
         if not os.path.isdir(path):
             os.mkdir(path)
+        else:
+            for f in glob.glob('%s/*.png' % path):
+                try:
+                    os.remove(f)
+                except OSError as e:
+                    print("Error: %s : %s" % (f, e.strerror))
 
-        #cargamos la plantilla e inicializamos la webcam
+        # cargamos la plantilla e inicializamos la webcam
         face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
-        cap = cv2.VideoCapture(0)
+        # cap = cv2.VideoCapture(0)
 
         img_width, img_height = 112, 92
         # Ciclo para tomar fotografias
         count = 0
+
+        self.frame = None
+
         while count < 100:
+            print(count)
             # leemos un frame y lo guardamos
-            rval, img = cap.read()
+            # rval, img = cap.read()
+            rval = self.rval
+            img = self.img
+
             img = cv2.flip(img, 1, 0)
 
             # convertimos la imagen a blanco y negro
@@ -63,11 +83,16 @@ class Enrollment:
                 # Contador del ciclo
                 count += 1
 
+                self.frame = img
+                self.working = True
+
             # Mostramos la imagen
-            cv2.imshow('OpenCV Entrenamiento de '+nombre, img)
+            # cv2.imshow('OpenCV Entrenamiento de '+nombre, img)
 
             # Si se presiona la tecla ESC se cierra el programa
-            key = cv2.waitKey(10)
-            if key == 27:
-                cv2.destroyAllWindows()
-                break
+            # key = cv2.waitKey(10)
+            # if key == 27:
+            #     cv2.destroyAllWindows()
+            #     break
+
+        self.working = False

@@ -23,6 +23,9 @@
         orientation: 'vertical'
 	Label:
 	    text: 'Access Granted'
+        Button:
+            text: 'OK'
+            on_press: root.manager.current = 'main'
 
 <LoginScreen>:
     BoxLayout:
@@ -60,6 +63,15 @@
         orientation: 'vertical'
         EnrollmentCamera:
             id: camera
+        BoxLayout:
+            Label:
+                text: 'Name'
+            TextInput:
+                id: user_name
+                multiline: False
+        Button:
+            text: 'Enroll'
+            on_press: root.do_enroll(user_name.text)
         Button:
             text: 'Cancel'
             on_press: root.manager.current = 'main'
