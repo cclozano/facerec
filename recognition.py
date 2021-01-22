@@ -84,10 +84,12 @@ class Recognition:
             if prediction[1] < 100:
                 # Ponemos el nombre de la persona que se reconoció
                 cv2.putText(frame,'%s - %.0f' % (cara,prediction[1]),(x-10, y-10), cv2.FONT_HERSHEY_PLAIN,1,(0, 255, 0))
+                # print('%s - %.0f' % (cara,prediction[1]),(x-10, y-10), cv2.FONT_HERSHEY_PLAIN,1,(0, 255, 0))
+                print('%s - %.0f' % (cara,prediction[1]))
 
                 # En caso de que la cara sea de algun conocido se realizara determinadas accione
                 # Busca si los nombres de las personas reconocidas estan dentro de los que tienen acceso
-                flabs.TuSiTuNo(cara)
+                #flabs.TuSiTuNo(cara)
                 person = cara
 
             # Si la prediccion es mayor a 100 no es un reconomiento con la exactitud suficiente

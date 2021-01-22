@@ -1,78 +1,253 @@
 # <KivyCamera>:
 #   id: camera
 
+<FooterText>
+    orientation: 'vertical'
+
+    BoxLayout:
+        Label:
+            text: 'Proyecto final'
+    BoxLayout:
+        Label:
+            text: 'Inteligencia Artificial - 2020 II'
+    BoxLayout:
+        Label:
+            text: 'ESPOL'
+
 <MainScreen>:
     camera: camera
 
+    canvas:
+        Color:
+            rgb: [50, 50, 50]
+
     BoxLayout:
         orientation: 'vertical'
+        padding: [30]
 
         RecognitionCamera:
+            size_hint_y: .7
             id: camera
+            source: './back.jpg'
+            canvas:
+                Color:
+                    rgb: (1, 1, 1)
+                Rectangle:
+                    texture: self.texture
+                    size: self.width + 20, self.height + 20
+                    pos: self.x - 10, self.y - 10
 
-        BoxLayout
-            orientation: 'horizontal'
-            Button:
-                text: 'Settings'
-                on_press: root.manager.current = 'login'
-            Button:
-                text: 'Quit'
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint_y: .3
+            spacing: 30
+
+            BoxLayout:
+                orientation: 'vertical'
+
+                BoxLayout:
+                    orientation: 'vertical'
+	            Label:
+	                text: '(Desconocido)'
+
+	            Label:
+	                text: 'Mira de frente a la cámara por 3 segundos'
+
+            BoxLayout:
+                orientation: 'horizontal'
+
+                FooterText:
+
+                Button:
+                    text: 'Settings'
+                    on_press: root.manager.current = 'login'
 
 <AccessGrantedScreen>
     BoxLayout:
         orientation: 'vertical'
-	Label:
-	    text: 'Access Granted'
-        Button:
-            text: 'OK'
-            on_press: root.manager.current = 'main'
+        padding: [30]
+
+        Image:
+            id: detected_user_photo
+            size_hint_y: .7
+            source: './access_granted.png'
+            canvas:
+                Color:
+                    rgb: (1, 1, 1)
+                Rectangle:
+                    texture: self.texture
+                    size: self.width + 20, self.height + 20
+                    pos: self.x - 10, self.y - 10
+
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint_y: .3
+            spacing: 30
+
+            BoxLayout:
+                orientation: 'vertical'
+
+                BoxLayout:
+                    orientation: 'vertical'
+	            Label:
+	                text: 'Access granted'
+
+            BoxLayout:
+                orientation: 'horizontal'
+
+                FooterText:
+
+                Button:
+                    text: 'OK'
+                    on_press: root.manager.current = 'main'
 
 <LoginScreen>:
     BoxLayout:
         orientation: 'vertical'
+        padding: [30]
+
         BoxLayout:
-            Label:
-                text: 'PIN'
-            TextInput:
-                id: user_pin
-                multiline: False
+            size_hint_y: .7
+
+            BoxLayout:
+                size_hint: .1, .1
+                pos_hint: {'x': .45, 'y': .45}
+
+                Label:
+                    text: 'PIN'
+                TextInput:
+                    id: user_pin
+                    multiline: False
+
         BoxLayout:
-            Button:
-                text: 'Login'
-                on_press: root.do_login(user_pin.text)
-            Button:
-                text: 'Cancel'
-                on_press: root.manager.current = 'main'
+            orientation: 'vertical'
+            size_hint_y: .3
+            spacing: 30
+
+            BoxLayout:
+                orientation: 'vertical'
+
+                BoxLayout:
+                    orientation: 'vertical'
+	            Label:
+	                text: 'Ingrese su PIN de administrador para ingresar a las configuraciones (0000)'
+
+            BoxLayout:
+                orientation: 'horizontal'
+
+                FooterText:
+
+                Button:
+                    text: 'Login'
+                    on_press: root.do_login(user_pin.text)
+                Button:
+                    text: 'Cancel'
+                    on_press: root.manager.current = 'main'
 
 <SettingsScreen>:
     BoxLayout:
         orientation: 'vertical'
-        Label:
-            text: 'Settings'
-        Button:
-            text: 'Enroll'
-            on_press: root.manager.current = 'enroll'
-        Button:
-            text: 'Cancel'
-            on_press: root.manager.current = 'main'
+        padding: [30]
+
+        BoxLayout:
+            size_hint_y: .7
+
+            BoxLayout:
+                orientation: 'vertical'
+                # size_hint: .1, .1
+                # pos_hint: {'x': .45, 'y': .45}
+
+                Label:
+                    text: 'Settings'
+                Button:
+                    text: 'Enroll'
+                    on_press: root.manager.current = 'enroll'
+                Button:
+                    text: 'Another option'
+                    on_press: root.manager.current = 'enroll'
+                Button:
+                    text: 'Yet another option'
+                    on_press: root.manager.current = 'enroll'
+
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint_y: .3
+            spacing: 30
+
+            BoxLayout:
+                orientation: 'vertical'
+
+                BoxLayout:
+	            Label:
+	                text: ''
+
+            BoxLayout:
+                orientation: 'horizontal'
+
+                FooterText:
+
+                Button:
+                    text: 'Cancel'
+                    on_press: root.manager.current = 'main'
 
 <EnrollScreen>
     camera: camera
 
+    canvas:
+        Color:
+            rgb: [50, 50, 50]
+
     BoxLayout:
         orientation: 'vertical'
-        EnrollmentCamera:
-            id: camera
-        BoxLayout:
-            Label:
-                text: 'Name'
-            TextInput:
-                id: user_name
-                multiline: False
-        Button:
-            text: 'Enroll'
-            on_press: root.do_enroll(user_name.text)
-        Button:
-            text: 'Cancel'
-            on_press: root.manager.current = 'main'
+        padding: [30]
 
+        EnrollmentCamera:
+            size_hint_y: .7
+            id: camera
+            source: './back.jpg'
+            canvas:
+                Color:
+                    rgb: (1, 1, 1)
+                Rectangle:
+                    texture: self.texture
+                    size: self.width + 20, self.height + 20
+                    pos: self.x - 10, self.y - 10
+
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint_y: .3
+            spacing: 30
+
+            BoxLayout:
+                orientation: 'vertical'
+
+                BoxLayout:
+                    orientation: 'vertical'
+
+                    # BoxLayout:
+                    #     Label:
+                    #         text: ''
+
+                    BoxLayout:
+                        orientation: 'horizontal'
+                        Label:
+                            text: 'Name'
+                        TextInput:
+                            id: user_name
+                            multiline: False
+
+                    # BoxLayout:
+	            #     Label:
+	            #         text: 'Mira de frente a la cámara por 3 segundos'
+
+            BoxLayout:
+                orientation: 'horizontal'
+
+                FooterText:
+
+                Button:
+                    text: 'Enroll'
+                    on_press: root.do_enroll(user_name.text)
+                Button:
+                    text: 'Cancel'
+                    on_press: root.manager.current = 'main'

@@ -6,9 +6,14 @@ from kivy.clock import Clock
 from kivy.graphics.texture import Texture
 from kivy.properties import ObjectProperty
 from kivy.uix.screenmanager import ScreenManager, Screen
+from kivy.uix.boxlayout import BoxLayout
 import cv2
 from recognition import Recognition
 from enrollment import Enrollment
+
+
+class FooterText(BoxLayout):
+    pass
 
 
 class MainScreen(Screen):
@@ -141,7 +146,7 @@ class RecognitionCamera(Image):
             # Grant access afer 30 retries
             if person and person == self.recognized_person:
                 self.c += 1
-                if self.c == 30:
+                if self.c == 10:
                     self.parent.parent.manager.current = 'access_granted'
             else:
                 self.c = 0
